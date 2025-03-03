@@ -4,7 +4,7 @@ import sys
 from typing import Optional
 
 class ChatClient:
-    def __init__(self, host: str = 'localhost', port: int = 41234):
+    def __init__(self, host: str = '10.30.6.4', port: int = 41234):
         self.host = host
         self.port = port
         self.username: Optional[str] = None

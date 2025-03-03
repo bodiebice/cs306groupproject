@@ -5,7 +5,7 @@ import threading
 from typing import Dict, Tuple, Any
 
 class StatusBroadcaster:
-    def __init__(self, host: str = '0.0.0.0', port: int = 41234):
+    def __init__(self, host: str = '10.30.6.4', port: int = 41234):
         self.host = host
         self.port = port
         # Create separate sockets for UDP and TCP
