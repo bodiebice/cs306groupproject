@@ -1,6 +1,7 @@
 import socket
 import json
 import select
+import threading
 from typing import Dict, Tuple, Any
 
 class StatusBroadcaster:
@@ -35,7 +36,8 @@ class StatusBroadcaster:
                     else:
                         # Handle new TCP connection
                         client_sock, addr = sock.accept()
-                        self.handle_tcp_connection(client_sock, addr)
+                        # Start a new thread for each TCP connection
+                        threading.Thread(target=self.handle_tcp_connection, args=(client_sock, addr)).start()
                         
         except KeyboardInterrupt:
             print("Shutting down server...")
