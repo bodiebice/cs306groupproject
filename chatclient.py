@@ -1,8 +1,7 @@
 import socket
 import threading
 import sys
-from typing import Optional, Tuple
-import pyfiglet
+from typing import Optional
 
 class ChatClient:
     def __init__(self, host: str = '10.30.6.4', port: int = 41234):
