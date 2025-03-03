@@ -1,7 +1,8 @@
 import socket
 import threading
 import sys
-from typing import Optional
+from typing import Optional, Tuple
+import pyfiglet
 
 class ChatClient:
     def __init__(self, host: str = '10.30.6.4', port: int = 41234):
@@ -79,6 +80,10 @@ class ChatClient:
                     if username != self.username:
                         print(f"\n[CHAT] {username}: {chat_message}")
                         print("Your message: ", end='', flush=True)
+                else:
+                    # Handle ASCII art messages
+                    print(f"\n[ASCII ART] {message}")
+                    print("Your message: ", end='', flush=True)
                         
         except Exception as e:
             print(f"TCP listener error: {e}")
@@ -90,6 +95,11 @@ class ChatClient:
             while True:
                 message = input("Your message: ")
                 
+                if message.lower().startswith('/ascii'):
+                    # send ascii
+                    text = message[7:]
+                    self.send_ascii(text)
+
                 if message.lower().startswith('/status '):
                     # Send status update
                     status = message[8:]  # Remove '/status '
@@ -118,6 +128,13 @@ class ChatClient:
         """Send chat message via TCP"""
         try:
             self.tcp_socket.send(f"CHAT:{self.username}:{message}".encode('utf-8'))
+        except Exception as e:
+            print(f"Error sending message: {e}")
+    
+    def send_ascii(self, message: str):
+        """ Send Ascii"""
+        try:
+            self.tcp_socket.send(f"ASCII:{message}".encode('utf-8'))
         except Exception as e:
             print(f"Error sending message: {e}")
     

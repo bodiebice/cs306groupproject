@@ -1,5 +1,5 @@
 import socket
-import json
+import pyfiglet
 import select
 import threading
 from typing import Dict, Tuple, Any
@@ -91,10 +91,18 @@ class StatusBroadcaster:
                     }
                     print(f"TCP client registered for chat: {username} at {addr[0]}:{addr[1]}")
                 
+                    self.broadcast_chat("Server", f"{username} has joined the chat!", client_key )
+                    
                 elif message.startswith('CHAT:'):
                     # Handle chat messages
                     _, username, chat_message = message.split(':', 2)
                     self.broadcast_chat(username, chat_message, client_key)
+                
+                elif message.startswith('ASCII:'):
+                    # handle ascii art :D
+                    _, text = message.split(':', 1)
+                    ascii_art = pyfiglet.figlet_format(text.strip())
+                    self.broadcast_chat("Server", ascii_art, client_key)
                     
         except Exception as e:
             print(f"Error handling TCP connection: {e}")
